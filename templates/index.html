@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spotify-style Python Frontend</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="logo">SoundFlow</div>
+        <div class="sidebar-links">
+            {% for link in sidebar_links %}
+                <a class="nav-link {% if link.active %}active{% endif %}">
+                    <span class="icon">{{ link.icon }}</span>
+                    <span>{{ link.label }}</span>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="quick-filters">
+            <span>Filter</span>
+            <div class="filters">
+                <span>Chill</span>
+                <span>Focus</span>
+                <span>2026 Hype</span>
+                <span>Indie</span>
+            </div>
+        </div>
+    </aside>
+    <main>
+        <section class="hero">
+            <div class="hero-header">
+                <div>
+                    <p class="eyebrow">Personalized for you</p>
+                    <h1>Every mood, in one feed</h1>
+                </div>
+                <button class="btn ghost">Play all</button>
+            </div>
+            <div class="hero-grid">
+                {% for card in hero_cards %}
+                    <article class="hero-card" style="background: {{ card.cover }};">
+                        <div class="hero-card__text">
+                            <p class="eyebrow">{{ card.subtitle }}</p>
+                            <h2>{{ card.title }}</h2>
+                            <p>{{ card.desc }}</p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="playlists">
+            <header>
+                <div>
+                    <p class="eyebrow">Playlists</p>
+                    <h2>Curated collections</h2>
+                </div>
+                <button class="btn">See all</button>
+            </header>
+            <div class="playlist-grid">
+                {% for playlist in playlists %}
+                    <article class="playlist-card">
+                        <div class="playlist-card__cover" style="background: {{ playlist.cover }};"></div>
+                        <div class="playlist-card__meta">
+                            <h3>{{ playlist.title }}</h3>
+                            <p>{{ playlist.description }}</p>
+                            <span>{{ playlist.tracks }} tracks</span>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="tracks">
+            <header>
+                <div>
+                    <p class="eyebrow">Top tracks</p>
+                    <h2>Today&apos;s mix</h2>
+                </div>
+                <button class="btn ghost">Shuffle play</button>
+            </header>
+            <div class="track-list">
+                {% for track in top_tracks %}
+                    <div class="track-row">
+                        <div class="track-row__info">
+                            <p class="track-row__title">{{ track.title }}</p>
+                            <p class="track-row__artist">{{ track.artist }}</p>
+                        </div>
+                        <span>{{ track.duration }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    <footer class="now-playing">
+        <div class="now-playing__info">
+            <div class="now-playing__art" style="background: {{ now_playing.cover }};"></div>
+            <div>
+                <p class="track-row__title">{{ now_playing.title }}</p>
+                <p class="track-row__artist">{{ now_playing.artist }} · {{ now_playing.album }}</p>
+            </div>
+        </div>
+        <div class="now-playing__controls">
+            <div class="progress">
+                <div class="progress__bar" style="width: {{ now_playing.progress }}%;"></div>
+            </div>
+            <button class="play-pause" data-playing="false">Play</button>
+        </div>
+    </footer>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
